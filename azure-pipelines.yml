@@ -5,26 +5,21 @@
 trigger:
 - main
 
+pool:
+  vmImage: ubuntu-latest
+
 resources:
 - repo: self
 
 variables:
   tag: '$(Build.BuildId)'
-
-jobs:
-- job: FastAPI_CI_CD
-  displayName: FastAPI CI/CD Pipeline
-  pool:
-    vmImage: 'ubuntu-latest'
-
-  steps:
-  # Step 1: Checkout Code
+  
+steps:
   - task: Checkout@1
     displayName: "Checkout Code"
     inputs:
       clean: true
-
-  # Step 2: Install Dependencies
+      
   - task: UsePythonVersion@0
     displayName: "Set up Python Environment"
     inputs:
@@ -36,14 +31,12 @@ jobs:
       pip install -r requirements.txt
     displayName: "Install Dependencies"
 
-  # Step 3: Run Unit Tests
   - script: |
       source venv/bin/activate
       pytest --junitxml=results.xml
     displayName: "Run Unit Tests"
     continueOnError: false
 
-  # Publish test results to Azure DevOps (optional)
   - task: PublishTestResults@2
     displayName: "Publish Test Results"
     inputs:
@@ -51,7 +44,6 @@ jobs:
       testResultsFiles: '**/results.xml'
       failTaskOnFailedTests: true
 
-  # Step 4: Build Docker Image
   - task: Docker@2
     displayName: "Build Docker Image"
     inputs:
@@ -60,7 +52,6 @@ jobs:
       tags: |
         fastapi-app:$(Build.BuildId)
 
-  # Step 5: Push to Artifactory
   - task: Docker@2
     displayName: "Push Docker Image to Artifactory"
     inputs:
@@ -69,4 +60,4 @@ jobs:
       tags: |
         fastapi-app:$(Build.BuildId)
     env:
-      DOCKER_REGISTRY_SERVICE_CONNECTION: $(dockerRegistryServiceConnection)
+      DOCKER_REGISTRY_SERVICE_CONNECTION: $(DOCKER_REGISTRY_SERVICE_CONNECTION)
