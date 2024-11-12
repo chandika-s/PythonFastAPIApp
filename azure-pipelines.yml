@@ -56,7 +56,7 @@ steps:
     displayName: "Push Docker Image to Artifactory"
     inputs:
       command: push
-      repository: 'docker.io'
+      repository: 'docker.io/chandikas/fastapi-app'
       tags: |
         fastapi-app:$(Build.BuildId)
       serviceConnection: DOCKER_REGISTRY_SERVICE_CONNECTION
