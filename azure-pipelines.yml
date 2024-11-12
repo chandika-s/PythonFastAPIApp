@@ -59,5 +59,4 @@ steps:
       repository: 'docker.io'
       tags: |
         fastapi-app:$(Build.BuildId)
-    env:
-      DOCKER_REGISTRY_SERVICE_CONNECTION: $(DOCKER_REGISTRY_SERVICE_CONNECTION)
+      serviceConnection: DOCKER_REGISTRY_SERVICE_CONNECTION
