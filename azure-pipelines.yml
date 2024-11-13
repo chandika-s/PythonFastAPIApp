@@ -11,10 +11,10 @@ variables:
   repositoryName: fastapi-app
 
 steps:
-  - task: Checkout@1
-    displayName: "Checkout Code"
-    inputs:
-      clean: true
+  # - task: Checkout@1
+  #   displayName: "Checkout Code"
+  #   inputs:
+  #     clean: true
 
   - task: UsePythonVersion@0
     displayName: "Set up Python Environment"
