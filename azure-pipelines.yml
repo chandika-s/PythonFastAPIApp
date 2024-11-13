@@ -3,19 +3,19 @@ trigger:
 
 pool:
   name: mypool  # Specify the name of your self-hosted agent pool
-  demands: 
-    - docker
+  demands:
+    - docker  # Ensure the agent has Docker installed
 
 variables:
   tag: '$(Build.BuildId)'
   repositoryName: fastapi-app
-  
+
 steps:
   - task: Checkout@1
     displayName: "Checkout Code"
     inputs:
       clean: true
-      
+
   - task: UsePythonVersion@0
     displayName: "Set up Python Environment"
     inputs:
@@ -40,26 +40,9 @@ steps:
       testResultsFiles: '**/results.xml'
       failTaskOnFailedTests: true
 
-  # - task: Docker@2
-  #   displayName: "Build Docker Image"
-  #   inputs:
-  #     command: build
-  #     Dockerfile: '**/Dockerfile'
-  #     tags: |
-  #       fastapi-app:$(Build.BuildId)
-        
   - task: Docker@2
-   inputs:
-     containerRegistry: DOCKER_REGISTRY_SERVICE_CONNECTION
-     repository: $(repositoryName)
-     command: 'buildAndPush'
-     Dockerfile: '**/Dockerfile'
-
-  # - task: Docker@2
-  #   displayName: "Push Docker Image to Artifactory"
-  #   inputs:
-  #     command: push
-  #     repository: 'docker.io/chandikas/fastapi-app'
-  #     tags: |
-  #       fastapi-app:$(Build.BuildId)
-  #     containerRegistry: DOCKER_REGISTRY_SERVICE_CONNECTION
+    inputs:
+      containerRegistry: DOCKER_REGISTRY_SERVICE_CONNECTION
+      repository: $(repositoryName)
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
