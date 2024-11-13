@@ -1,12 +1,8 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: mypool  # Specify the name of your self-hosted agent pool
 
 resources:
 - repo: self
