@@ -3,8 +3,8 @@ trigger:
 
 pool:
   name: mypool  # Specify the name of your self-hosted agent pool
-  demands:
-    - docker  # Ensure the agent has Docker installed
+  # demands:
+  #   - docker  # Ensure the agent has Docker installed
 
 variables:
   tag: '$(Build.BuildId)'
