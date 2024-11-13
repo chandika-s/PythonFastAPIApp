@@ -8,7 +8,7 @@ pool:
 
 variables:
   tag: '$(Build.BuildId)'
-  repositoryName: fastapi-app
+  repositoryName: docker.io/chandikas/fastapi-app
 
 steps:
   # - task: Checkout@1
